@@ -68,7 +68,9 @@ const Videos = () => {
   };
 
   const fetchRelatedPhotos = (videoName) => {
-    fetch(`http://localhost:5000/api/photos?videoName=${videoName}`)
+    // fetch(`http://localhost:5000/api/photos?videoName=${videoName}`)
+        fetch(`http://kaapaan-backend.onrender.com/api/photos?videoName=${videoName}`)
+
       .then((res) => res.json())
       .then((data) => {
         if (data && Array.isArray(data)) {
