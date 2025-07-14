@@ -308,7 +308,9 @@ const VerifiedByStats = () => {
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/violations/verified-by');
+      // const res = await axios.get('http://localhost:5000/api/violations/verified-by');
+            const res = await axios.get('http://kaapaan-backend.onrender.com/api/violations/verified-by');
+
       // Filter to only include police_001 to police_005 and remove unknown IDs
       const filteredStats = res.data.filter(officer => 
         officer._id && officer._id.match(/^police_00[1-5]$/)

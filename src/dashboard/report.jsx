@@ -1163,7 +1163,9 @@ const TrafficViolationDashboard = () => {
       setIsDeleting(true);
       setDeletingId(imageId);
       
-      const deleteResponse = await fetch('http://localhost:5000/api/violations/delete', {
+      // const deleteResponse = await fetch('http://localhost:5000/api/violations/delete', {
+            const deleteResponse = await fetch('http://kaapaan-backend.onrender.com/api/violations/delete', {
+
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
