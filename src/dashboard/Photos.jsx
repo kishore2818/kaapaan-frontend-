@@ -452,7 +452,7 @@ const Photos = () => {
     try {
       setLoading(true);
       // const response = await axios.get('http://localhost:5000/api/violations');
-            const response = await axios.get('http://kaapaan-backend.onrender.com/api/violations');
+            const response = await axios.get('https://kaapaan-backend.onrender.com/api/violations');
 
       setViolations(response.data);
       setFilteredViolations(response.data);

@@ -17,7 +17,7 @@ const Videos = () => {
   useEffect(() => {
     setLoading(true);
     // fetch('http://localhost:5000/api/videos')
-        fetch('http://kaapaan-backend.onrender.com/api/videos')
+        fetch('https://kaapaan-backend.onrender.com/api/videos')
 
       .then((res) => res.json())
       .then((data) => {
@@ -68,8 +68,8 @@ const Videos = () => {
   };
 
   const fetchRelatedPhotos = (videoName) => {
-    // fetch(`http://localhost:5000/api/photos?videoName=${videoName}`)
-        fetch(`http://kaapaan-backend.onrender.com/api/photos?videoName=${videoName}`)
+    fetch(`http://localhost:5000/api/photos?videoName=${videoName}`)
+        // fetch(`http://kaapaan-backend.onrender.com/api/photos?videoName=${videoName}`)
 
       .then((res) => res.json())
       .then((data) => {

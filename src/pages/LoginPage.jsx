@@ -330,7 +330,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
 
     try {
       // const response = await axios.post('http://localhost:5000/api/login', credentials);
-            const response = await axios.post('http://kaapaan-backend.onrender.com/api/login', credentials);
+            const response = await axios.post('https://kaapaan-backend.onrender.com/api/login', credentials);
 
 
 

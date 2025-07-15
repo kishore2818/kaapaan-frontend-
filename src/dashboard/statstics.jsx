@@ -1164,7 +1164,9 @@ const TrafficViolationDashboard = () => {
       try {
         setIsLoading(true);
         // const response = await fetch('http://localhost:5000/api/violations');
-                const response = await fetch('http://kaapaan-backend.onrender.com/api/violations');
+                // const response = await fetch('http://kaapaan-backend.onrender.com/api/violations');
+                                const response = await fetch('https://kaapaan-backend.onrender.com/api/violations');
+
 
         const data = await response.json();
 
