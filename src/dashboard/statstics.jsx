@@ -2001,6 +2001,8 @@
 
 
 
+
+
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import DashboardLayout from '../components/DashboardLayout';
@@ -2039,12 +2041,13 @@ ChartJS.register(
 
 // Field name mapping (backend field -> display name)
 const VIOLATION_FIELD_MAPPING = {
-  noHelmet: 'Without Helmet',
+  //  noHelmet: 'Without Helmet',  // Old model field
+  withoutHelmet: 'Without Helmet',  // New model field
   phoneUsage: 'Phone Usage',
   tripling: 'Tripling',
   stuntRiding: 'Stunt Riding',
   smoking: 'Smoking',
-  fire: 'Fire'
+  fire: 'Fire',
 };
 
 const TrafficViolationDashboard = () => {
@@ -2237,38 +2240,41 @@ const TrafficViolationDashboard = () => {
   const processViolationData = (data) => {
     const counts = {};
     
+    // Initialize all violation types with 0 counts
+    Object.values(VIOLATION_FIELD_MAPPING).forEach(violation => {
+      counts[violation] = 0;
+    });
+    
     data.forEach(item => {
       const violations = [];
       // Map backend fields to display names
       Object.keys(VIOLATION_FIELD_MAPPING).forEach(field => {
         if (item[field]) {
           violations.push(VIOLATION_FIELD_MAPPING[field]);
+          counts[VIOLATION_FIELD_MAPPING[field]] += 1;
         }
       });
 
-      if (violations.length > 0) {
-        violations.forEach(v => {
-          counts[v] = (counts[v] || 0) + 1;
-        });
-        
-        if (violations.length > 1) {
-          const comboKey = violations.join(' + ');
-          counts[comboKey] = (counts[comboKey] || 0) + 1;
-        }
+      if (violations.length > 1) {
+        const comboKey = violations.join(' + ');
+        counts[comboKey] = (counts[comboKey] || 0) + 1;
       }
     });
 
-    const violationData = Object.keys(counts).map(key => ({
-      name: key,
-      value: counts[key],
-      maxValue: Math.max(...Object.values(counts)) * 1.2,
-      color: VIOLATION_COLORS[key] || {
-        primary: '#6B7280',
-        secondary: '#F3F4F6',
-        gauge: ['#6B7280', '#E5E7EB'],
-        chart: '#6B7280'
-      }
-    }));
+    // Filter out violations with 0 counts if you want to show only those with data
+    const violationData = Object.keys(counts)
+      .filter(key => counts[key] > 0) // Only include violations with counts > 0
+      .map(key => ({
+        name: key,
+        value: counts[key],
+        maxValue: Math.max(...Object.values(counts)) * 1.2,
+        color: VIOLATION_COLORS[key] || {
+          primary: '#6B7280',
+          secondary: '#F3F4F6',
+          gauge: ['#6B7280', '#E5E7EB'],
+          chart: '#6B7280'
+        }
+      }));
 
     violationData.sort((a, b) => b.value - a.value);
     setViolationTypes(violationData);
@@ -2301,10 +2307,18 @@ const TrafficViolationDashboard = () => {
   // Prepare violation options for select dropdown
   const violationOptions = [
     { value: null, label: 'All Violation Types' },
-    ...violationTypes.map(item => ({
-      value: item.name,
-      label: item.name
-    }))
+    // Include all individual violations first
+    ...Object.values(VIOLATION_FIELD_MAPPING).map(violation => ({
+      value: violation,
+      label: violation
+    })),
+    // Then include combined violations from the data
+    ...violationTypes
+      .filter(item => item.name.includes('+'))
+      .map(item => ({
+        value: item.name,
+        label: item.name
+      }))
   ];
 
   // Time range slider marks
