@@ -2041,10 +2041,10 @@ ChartJS.register(
 
 // Field name mapping (backend field -> display name)
 const VIOLATION_FIELD_MAPPING = {
-  //  noHelmet: 'Without Helmet',  // Old model field
+   noHelmet: 'Without Helmet',  // Old model field
   withoutHelmet: 'Without Helmet',  // New model field
   phoneUsage: 'Phone Usage',
-  tripling: 'Tripling',
+  triples: 'Tripling',
   stuntRiding: 'Stunt Riding',
   smoking: 'Smoking',
   fire: 'Fire',
