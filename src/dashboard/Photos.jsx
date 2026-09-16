@@ -54,7 +54,8 @@ const Photos = () => {
     try {
       setLoading(true);
       const response = await axios.get(apiUrl('/violations'));
-      setViolations(response.data.map(normalizeViolation));
+      const dataArray = Array.isArray(response.data) ? response.data : (response.data?.data || []);
+      setViolations(dataArray.map(normalizeViolation));
     } catch (error) {
       console.error('Error fetching violations:', error);
     } finally {

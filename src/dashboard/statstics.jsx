@@ -2171,8 +2171,9 @@ const TrafficViolationDashboard = () => {
         setIsLoading(true);
         // const response = await fetch('https://kaapaan-backend.onrender.com/api/violations');
         const response = await fetch(apiUrl('/violations/all'));
-
-        const data = (await response.json())
+        const rawData = await response.json();
+        const dataArray = Array.isArray(rawData) ? rawData : (rawData.data || []);
+        const data = dataArray
           .map(normalizeViolation)
           .sort((a, b) => new Date(b.analyzedAt) - new Date(a.analyzedAt));
 

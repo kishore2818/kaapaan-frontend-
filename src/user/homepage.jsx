@@ -25,7 +25,8 @@ const ViolationManagement = () => {
   const fetchViolations = async () => {
     try {
       const response = await axios.get(apiUrl('/violations'));
-      const processed = response.data.map(v => ({
+      const dataArray = Array.isArray(response.data) ? response.data : (response.data?.data || []);
+      const processed = dataArray.map(v => ({
         ...normalizeViolation(v),
         verified: v.verified === true,
         formattedTime: formatDateTime(v.analyzedAt)

@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect } from 'react';
 import { 
   CircularProgress, 
@@ -18,7 +15,7 @@ import { styled } from '@mui/material/styles';
 import axios from 'axios';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import DashboardLayout from '../components/DashboardLayout';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   BarChart,
   Bar,
@@ -49,38 +46,13 @@ const VerifiedByStats = () => {
   const [loading, setLoading] = useState(true);
   const theme = useTheme();
 
-
-
-// const fetchStats = async () => {
-//   try {
-//     const officerIds = ['police_001', 'police_002', 'police_003', 'police_004', 'police_005'];
-//     const promises = officerIds.map(async (id) => {
-//       const response = await axios.get(`https://kaapaan-backend.onrender.com/api/violations/verified?officerId=${id}`);
-//       return {
-//         _id: id,
-//         count: response.data.length,
-//         name: id.replace('_', ' ').toUpperCase(),
-//       };
-//     });
-
-//     const results = await Promise.all(promises);
-//     setStats(results);
-//   } catch (error) {
-//     console.error('Error fetching verification stats:', error);
-//   } finally {
-//     setLoading(false);
-//   }
-// };
-
-
-
   const fetchStats = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(apiUrl('/violations/verified-by'));
-            // const res = await axios.get('https://kaapaan-backend.onrender.com/api/violations/verified-by');
-
-      // Filter to only include police_001 to police_005 and remove unknown IDs
-      const filteredStats = res.data.filter(officer => 
+      const dataArray = Array.isArray(res.data) ? res.data : (res.data?.data || []);
+      
+      const filteredStats = dataArray.filter(officer => 
         officer._id && officer._id.match(/^police_00[1-5]$/)
       ).map(officer => ({
         ...officer,
@@ -94,8 +66,6 @@ const VerifiedByStats = () => {
     }
   };
 
-
-  
   useEffect(() => {
     fetchStats();
   }, []);
@@ -108,7 +78,6 @@ const VerifiedByStats = () => {
 
   return (
     <>
-
       <DashboardLayout>
         <div className="min-h-screen px-4 py-6 md:px-8">
           <div className="max-w-7xl mx-auto">

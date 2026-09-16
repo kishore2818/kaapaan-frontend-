@@ -20,7 +20,8 @@ const VerifiedViolations = () => {
   const fetchVerified = async () => {
     try {
       const res = await axios.get(apiUrl('/violations'));
-      const verifiedOnly = res.data
+      const dataArray = Array.isArray(res.data) ? res.data : (res.data?.data || []);
+      const verifiedOnly = dataArray
         .filter(v => v.verified === true)
         .map(v => ({
           ...normalizeViolation(v),
