@@ -1,7 +1,10 @@
+const BACKEND_URL = import.meta.env.DEV ? "" : "https://kaapaan-backend.onrender.com";
+const WS_BACKEND_URL = import.meta.env.DEV ? "ws://localhost:5001" : "wss://kaapaan-backend.onrender.com";
+
 const trimTrailingSlash = (value = "") => value.replace(/\/+$/, "");
-export const API_BASE_URL = trimTrailingSlash("/api");
-export const WS_BASE_URL = trimTrailingSlash("ws://98.94.85.231/ws");
-export const CRIMINAL_API_BASE_URL = trimTrailingSlash("/api");
+export const API_BASE_URL = trimTrailingSlash(`${BACKEND_URL}/api`);
+export const WS_BASE_URL = trimTrailingSlash(`${WS_BACKEND_URL}/ws`);
+export const CRIMINAL_API_BASE_URL = trimTrailingSlash(`${BACKEND_URL}/api`);
 
 export const apiUrl = (path) => {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
